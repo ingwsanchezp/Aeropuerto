@@ -4,12 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessErrors, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AeropuertoEntity } from './aeropuerto.entity';
+import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';
 
 @Injectable()
 export class AeropuertoService {
   constructor(
     @InjectRepository(AeropuertoEntity)
     private readonly aeropuertoRepositorio: Repository<AeropuertoEntity>,
+    /*@InjectRepository(AerolineaEntity)
+    private readonly aerolineaRepositorio: Repository<AerolineaEntity>,*/
   ) {}
 
   async findAll(): Promise<AeropuertoEntity[]>{
@@ -18,6 +21,7 @@ export class AeropuertoService {
 
   async findOne(id: string): Promise<AeropuertoEntity>{
     const aeropuerto: AeropuertoEntity = await this.aeropuertoRepositorio.findOne({where: {id}, relations: {aerolineas: true,},});
+    //const aerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({where: {id}, relations: {aerolineas: true,},});
     if(!aeropuerto)
         throw new BusinessLogicException('El aeropuerto con id no ha sido encontrado',BusinessErrors.NOT_FOUND);
     return aeropuerto;
@@ -31,6 +35,7 @@ export class AeropuertoService {
   }
 
   async update(id: string, aeropuerto: AeropuertoEntity){
+    const aerolinea = null;
     const persistAeroPuerto: AeropuertoEntity = await this.aeropuertoRepositorio.findOne({where: {id}});
     if (!persistAeroPuerto)
         throw new BusinessLogicException('El aeropuerto con id no ha sido encontrado', BusinessErrors.NOT_FOUND);
@@ -45,5 +50,16 @@ export class AeropuertoService {
     if (!persistAeroPuerto)
         throw new BusinessLogicException('El aeropuerto con id no ha sido encontrado', BusinessErrors.NOT_FOUND);
     await this.aeropuertoRepositorio.remove(persistAeroPuerto);
+  }
+
+  async addAerolinea(idAeropuerto: string, idAerolinea: string){
+    const persistAeroPuerto: AeropuertoEntity = await this.aeropuertoRepositorio.findOne({where: {id: idAeropuerto}, relations: {aerolineas: true,},});
+    if (!persistAeroPuerto)
+        throw new BusinessLogicException('El aeropuerto con id no ha sido encontrado', BusinessErrors.NOT_FOUND);
+    const persistAerolinea: AerolineaEntity = await this.aeropuertoRepositorio.manager.findOne(AerolineaEntity, {where: {id: idAerolinea}, relations: {aeropuertos: true,},});
+    if (!persistAerolinea)
+        throw new BusinessLogicException('La aerolinea con id no ha sido encontrada', BusinessErrors.NOT_FOUND);
+    persistAeroPuerto.aerolineas.push(persistAerolinea);
+    await this.aeropuertoRepositorio.save(persistAeroPuerto);
   }
 }

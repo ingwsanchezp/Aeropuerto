@@ -7,6 +7,9 @@ import {
 } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AerolineaEntity } from './aerolinea.entity';
+import { AerolineaDto } from './aerolinea.dto';
+import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
+import { AeropuertoDto } from 'src/aeropuerto/aeropuerto.dto';
 
 @Injectable()
 export class AerolineaService {
@@ -22,6 +25,7 @@ export class AerolineaService {
   }
 
   async findOne(id: string): Promise<AerolineaEntity> {
+    const aerolineaAeropuerto = null;
     const aerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({
       where: { id },
       relations: { aeropuertos: true },
@@ -56,4 +60,40 @@ export class AerolineaService {
       throw new BusinessLogicException('La aerolinea con el id no ha sido encontrada', BusinessErrors.NOT_FOUND);
     await this.aerolineaRepositorio.remove(persistAerolinea);
   }
+
+  async addAeropuerto(idAerolinea: string, idAeropuerto: string): Promise<AerolineaEntity> {
+    const persistAerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({ where: { id: idAerolinea } });
+    if (!persistAerolinea)
+      throw new BusinessLogicException('La aerolinea con el id no ha sido encontrada', BusinessErrors.NOT_FOUND);
+    const persistAeropuerto: AeropuertoEntity = await this.aerolineaRepositorio.manager.getRepository(AeropuertoEntity).findOne({ where: { id: idAeropuerto } });
+    if (!persistAeropuerto)
+      throw new BusinessLogicException('El aeropuerto con el id no ha sido encontrado', BusinessErrors.NOT_FOUND);
+    persistAerolinea.aeropuertos.push(persistAeropuerto);
+    return await this.aerolineaRepositorio.save(persistAerolinea);
+  }
+ /*async (params:type) => {
+  
+ }*/
+ async removeAeropuerto(idAerolinea: string, idAeropuerto: string): Promise<AerolineaEntity> {
+  const persistAerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({ where: { id: idAerolinea } });
+  if (!persistAerolinea)
+    throw new BusinessLogicException('La aerolinea con el id no ha sido encontrada', BusinessErrors.NOT_FOUND);
+  const persistAeropuerto: AeropuertoEntity = await this.aerolineaRepositorio.manager.getRepository(AeropuertoEntity).findOne({ where: { id: idAeropuerto } });
+  if (!persistAeropuerto)
+    throw new BusinessLogicException('El aeropuerto con el id no ha sido encontrado', BusinessErrors.NOT_FOUND);
+  persistAerolinea.aeropuertos = persistAerolinea.aeropuertos.filter(aeropuerto => aeropuerto.id !== idAeropuerto);
+  return await this.aerolineaRepositorio.save(persistAerolinea);
+ }
+
+ async updateAeropuerto(idAerolinea: string, idAeropuerto: string, aeropuerto: AeropuertoEntity): Promise<AerolineaEntity> {
+  const persistAerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({ where: { id: idAerolinea } });
+  if (!persistAerolinea)
+    throw new BusinessLogicException('La aerolinea con el id no ha sido encontrada', BusinessErrors.NOT_FOUND);
+  const persistAeropuerto: AeropuertoEntity = await this.aerolineaRepositorio.manager.getRepository(AeropuertoEntity).findOne({ where: { id: idAeropuerto } });
+  if (!persistAeropuerto)
+    throw new BusinessLogicException('El aeropuerto con el id no ha sido encontrado', BusinessErrors.NOT_FOUND);
+  persistAerolinea.aeropuertos = persistAerolinea.aeropuertos.filter(aeropuerto => aeropuerto.id !== idAeropuerto);
+  persistAerolinea.aeropuertos.push(aeropuerto);
+  return await this.aerolineaRepositorio.save(persistAerolinea);
+ }
 }

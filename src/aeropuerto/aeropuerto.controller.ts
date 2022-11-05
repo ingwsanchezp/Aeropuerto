@@ -38,4 +38,14 @@ export class AeropuertoController {
     async delete(@Param('airportId') aeropuertoId: string){
         return await this.aeroPuertoService.delete(aeropuertoId);
     }
+
+    @Get(':airportId/airlines')
+    async findAirlines(@Param('airportId') airportId: string){
+        return await this.aeroPuertoService.findAll;
+    }
+
+    @Get(':airportId/airlines/:airlineId')
+    async findAirline(@Param('airportId') airportId: string, @Param('airlineId') airlineId: string){
+        return await this.aeroPuertoService.findOne(airportId);
+    }
 }

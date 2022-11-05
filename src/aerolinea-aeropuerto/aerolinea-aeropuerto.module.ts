@@ -1,7 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { AerolineaAeropuertoController } from './aerolinea-aeropuerto.controller';
-/* eslint-disable prettier/prettier */
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
-/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';

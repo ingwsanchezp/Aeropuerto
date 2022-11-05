@@ -5,6 +5,10 @@ import { BusinessErrorsInterceptor } from '../shared/interceptors/business-error
 import { AerolineaDto } from './aerolinea.dto';
 import { AerolineaEntity } from './aerolinea.entity';
 import { AerolineaService } from './aerolinea.service';
+import { BusinessLogicException, BusinessErrors } from '../shared/errors/business-errors';
+import { AeropuertoDto } from '../aeropuerto/aeropuerto.dto';
+import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
+import { AerolineaAeropuertoService } from '../aerolinea-aeropuerto/aerolinea-aeropuerto.service';
 
 @Controller('airlines')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -40,4 +44,10 @@ export class AerolineaController {
     async delete(@Param('regionId') regionId: string){
         return await this.aerolineaService.delete(regionId);
     }
+
+    /*@Get(':airlineId/airports')
+    async findAirports(@Param('airlineId') airlineId: string){
+        return await this.aerolineaService.findAirports(airlineId);
+    }*/
+    
 }

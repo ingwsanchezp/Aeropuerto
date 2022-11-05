@@ -72,4 +72,17 @@ export class AerolineaAeropuertoService {
         })
         return await this.aerolineaRepositorio.save(persistAerolinea);
     }
+
+    async sincronize(aerolineaId: string, aeropuertoId: string){
+        const persistAerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({where: {id: aerolineaId}, relations: { aeropuertos: true },});
+        if (!persistAerolinea)
+            throw new BusinessLogicException('La aerolinea con el id no ha sido encontrada', BusinessErrors.NOT_FOUND);
+        if (!persistAerolinea.aeropuertos)
+            throw new BusinessLogicException('No se encontraron aeropuertos para esta aerolinea id', BusinessErrors.NOT_FOUND);
+        const persistAeroPuerto: AeropuertoEntity = await this.aeropuertoRepositorio.findOne({where: {id: aeropuertoId}});
+        if (!persistAeroPuerto)
+            throw new BusinessLogicException('No se encontraron aeropuerto para esta aerolinea id', BusinessErrors.NOT_FOUND);
+        persistAerolinea.aeropuertos.push(persistAeroPuerto);
+        return await this.aerolineaRepositorio.save(persistAerolinea);
+    }
 }
