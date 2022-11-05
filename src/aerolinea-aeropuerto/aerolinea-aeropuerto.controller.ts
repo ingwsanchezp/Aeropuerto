@@ -24,7 +24,6 @@ export class AerolineaAeropuertoController {
     @Get(':airlineId/airports/:airportId')
     async findAeropuertoDesdeAerolinea(@Param('airportId') aeropuertoId: string, @Param('airlineId') aerolineaId: string){
         try {
-            return await this.aerolineaAeropuerto.findAeropuertoDesdeAerolinea(aeropuertoId, aerolineaId);
             const aerolinea: AerolineaEntity = await this.aerolineaAeropuerto.findAeropuertoDesdeAerolinea(aeropuertoId, aerolineaId);
             if(aerolinea.aeropuertos.length == 0){
                 throw new BusinessLogicException('No se encontraron aeropuertos para esta aerolinea id', BusinessErrors.NOT_FOUND);  
