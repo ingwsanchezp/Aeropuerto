@@ -6,6 +6,7 @@ import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';
 import { AeropuertoDto } from 'src/aeropuerto/aeropuerto.dto';
 import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
 import { BusinessLogicException, BusinessErrors } from 'src/shared/errors/business-errors';
+import { Long } from 'typeorm';
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
 
 @Controller('airlines')
@@ -14,12 +15,16 @@ export class AerolineaAeropuertoController {
 
     @Get(':airlineId/airports')
     async findAeropuertosDesdeAerolinea(@Param('airlineId') aerolineaId: string){
+        let count = null;
+        count = await (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
+        console.log(count.toString());
         return await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId);
     }
 
     @Get(':airlineId/airports/:airportId')
     async findAeropuertoDesdeAerolinea(@Param('airportId') aeropuertoId: string, @Param('airlineId') aerolineaId: string){
         try {
+            return await this.aerolineaAeropuerto.findAeropuertoDesdeAerolinea(aeropuertoId, aerolineaId);
             const aerolinea: AerolineaEntity = await this.aerolineaAeropuerto.findAeropuertoDesdeAerolinea(aeropuertoId, aerolineaId);
             if(aerolinea.aeropuertos.length == 0){
                 throw new BusinessLogicException('No se encontraron aeropuertos para esta aerolinea id', BusinessErrors.NOT_FOUND);  

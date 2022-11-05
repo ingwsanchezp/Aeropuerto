@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { AeropuertoDto } from './aeropuerto.dto';
@@ -23,6 +23,9 @@ export class AeropuertoController {
 
     @Post()
     async create(@Body() aeropuertoDto: AeropuertoDto){
+        if(parseInt(aeropuertoDto.codigo) === NaN){
+            throw new HttpException("Codigo requerido", HttpStatus.NOT_FOUND);
+        }
         const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto);
         return await this.aeroPuertoService.create(aeropuerto);
     }

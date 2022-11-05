@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { AerolineaDto } from './aerolinea.dto';
@@ -27,6 +27,12 @@ export class AerolineaController {
 
     @Post()
     async create(@Body() aerolineaDto: AerolineaDto){
+        const aeroPuerto = new AeropuertoEntity();
+        console.log(aeroPuerto.nombre)
+        if(aeroPuerto.nombre === 'Aeropuerto Internacional de El Dorado'){
+            //throw new BusinessLogicException(BusinessErrors.AIRPORT_NOT_FOUND, HttpStatus.NOT_FOUND)
+            throw new HttpException("lo encontro", HttpStatus.NOT_FOUND);
+        }
         aerolineaDto.fechaFundacion = new Date(aerolineaDto.fechaFundacion)
         const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto)
         return await this.aerolineaService.create(aerolinea);
@@ -49,5 +55,5 @@ export class AerolineaController {
     async findAirports(@Param('airlineId') airlineId: string){
         return await this.aerolineaService.findAirports(airlineId);
     }*/
-    
+
 }

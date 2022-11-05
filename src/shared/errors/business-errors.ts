@@ -4,7 +4,8 @@ export function BusinessLogicException(message: string, type: number) {
   this.type = type;
 }
 export enum BusinessErrors {
-  NOT_FOUND,
-  PRECONDITION_FAILED,
-  BAD_REQUEST
+    NOT_FOUND,
+    PRECONDITION_FAILED,
+    BAD_REQUEST,
+    AIRPORT_NOT_FOUND
 }
