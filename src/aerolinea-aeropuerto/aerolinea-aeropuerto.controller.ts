@@ -16,9 +16,9 @@ export class AerolineaAeropuertoController {
     @Get(':airlineId/airports')
     async findAeropuertosDesdeAerolinea(@Param('airlineId') aerolineaId: string){
         let count = null;
-        count = await (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
+        count = (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
         console.log(count.toString());
-        return await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId);
+        return this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId);
     }
 
     @Get(':airlineId/airports/:airportId')

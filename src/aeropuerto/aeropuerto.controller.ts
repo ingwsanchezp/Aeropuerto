@@ -23,11 +23,11 @@ export class AeropuertoController {
 
     @Post()
     async create(@Body() aeropuertoDto: AeropuertoDto){
-        if(parseInt(aeropuertoDto.codigo) === NaN){
+        if(isNaN(parseInt(aeropuertoDto.codigo))){
             throw new HttpException("Codigo requerido", HttpStatus.NOT_FOUND);
         }
         const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto);
-        return await this.aeroPuertoService.create(aeropuerto);
+        return this.aeroPuertoService.create(aeropuerto);
     }
 
     @Put(':airportId')
