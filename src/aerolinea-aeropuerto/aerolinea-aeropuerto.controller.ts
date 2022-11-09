@@ -1,21 +1,18 @@
 /* eslint-disable prettier/prettier */
-
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';
-import { AeropuertoDto } from 'src/aeropuerto/aeropuerto.dto';
-import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
-import { BusinessLogicException, BusinessErrors } from 'src/shared/errors/business-errors';
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
+import { AeropuertoDto } from '../aeropuerto/aeropuerto.dto';
+import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
+import { BusinessLogicException, BusinessErrors } from '../shared/errors/business-errors';
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
-
 @Controller('airlines')
 export class AerolineaAeropuertoController { 
     constructor(private readonly aerolineaAeropuerto: AerolineaAeropuertoService){}
 
     @Get(':airlineId/airports')
     async findAeropuertosDesdeAerolinea(@Param('airlineId') aerolineaId: string){
-        let count = null;
-        count = (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
+        let count = (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
         console.log(count.toString());
         return this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId);
     }
