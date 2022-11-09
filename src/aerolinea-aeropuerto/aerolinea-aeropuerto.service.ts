@@ -57,7 +57,7 @@ export class AerolineaAeropuertoService {
             throw new BusinessLogicException('La aerolinea con el id no ha sido encontrada', BusinessErrors.NOT_FOUND);
         if (!persistAerolinea.aeropuertos)
             throw new BusinessLogicException('No se encontraron aeropuertos para esta aerolinea id', BusinessErrors.NOT_FOUND);
-        persistAerolinea.aeropuertos.forEach((aeropuerto, index) =>{ if(aeropuerto.id == aeropuertosAntiguoId) delete persistAerolinea.aeropuertos[index]})
+        persistAerolinea.aeropuertos.forEach((aeropuerto, index) =>{ if(aeropuerto.id == aeropuertosAntiguoId) persistAerolinea.aeropuertos.splice(index)})
         const persistAeroPuerto: AeropuertoEntity = await this.aeropuertoRepositorio.findOne({where: {id: aerpuertoNuevoId}});
         if (!persistAeroPuerto)
             throw new BusinessLogicException('No se encontraron aeropuerto para esta aerolinea id', BusinessErrors.NOT_FOUND);

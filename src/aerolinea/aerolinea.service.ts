@@ -6,10 +6,8 @@ import {
   BusinessLogicException,
 } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
-import { AerolineaEntity } from './aerolinea.entity';
-import { AerolineaDto } from './aerolinea.dto';
-import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
-import { AeropuertoDto } from 'src/aeropuerto/aeropuerto.dto';
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
+import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 
 @Injectable()
 export class AerolineaService {

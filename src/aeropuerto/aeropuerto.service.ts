@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessErrors, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AeropuertoEntity } from './aeropuerto.entity';
-import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 
 @Injectable()
 export class AeropuertoService {

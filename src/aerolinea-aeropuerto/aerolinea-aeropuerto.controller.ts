@@ -6,7 +6,6 @@ import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';
 import { AeropuertoDto } from 'src/aeropuerto/aeropuerto.dto';
 import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
 import { BusinessLogicException, BusinessErrors } from 'src/shared/errors/business-errors';
-import { Long } from 'typeorm';
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
 
 @Controller('airlines')
