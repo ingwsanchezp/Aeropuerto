@@ -7,7 +7,7 @@ import {
 } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AerolineaEntity } from './aerolinea.entity';
-import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
+import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 
 @Injectable()
 export class AerolineaService {
