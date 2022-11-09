@@ -43,12 +43,12 @@ export class AeropuertoController {
     }
 
     @Get(':airportId/airlines')
-    async findAirlines(@Param('airportId') airportId: string){
+    async findAirlines(){
         return await this.aeroPuertoService.findAll;
     }
 
     @Get(':airportId/airlines/:airlineId')
-    async findAirline(@Param('airportId') airportId: string, @Param('airlineId') airlineId: string){
+    async findAirline(@Param('airportId') airportId: string){
         return await this.aeroPuertoService.findOne(airportId);
     }
 }
