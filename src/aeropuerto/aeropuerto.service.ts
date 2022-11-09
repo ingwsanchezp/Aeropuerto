@@ -4,15 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessErrors, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AeropuertoEntity } from './aeropuerto.entity';
-import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 
 @Injectable()
 export class AeropuertoService {
   constructor(
     @InjectRepository(AeropuertoEntity)
     private readonly aeropuertoRepositorio: Repository<AeropuertoEntity>,
-    /*@InjectRepository(AerolineaEntity)
-    private readonly aerolineaRepositorio: Repository<AerolineaEntity>,*/
   ) {}
 
   async findAll(): Promise<AeropuertoEntity[]>{
@@ -34,7 +32,6 @@ export class AeropuertoService {
   }
 
   async update(id: string, aeropuerto: AeropuertoEntity){
-    const aerolinea = null;
     const persistAeroPuerto: AeropuertoEntity = await this.aeropuertoRepositorio.findOne({where: {id}});
     if (!persistAeroPuerto)
         throw new BusinessLogicException('El aeropuerto con id no ha sido encontrado', BusinessErrors.NOT_FOUND);

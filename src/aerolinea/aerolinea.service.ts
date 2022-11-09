@@ -7,9 +7,7 @@ import {
 } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AerolineaEntity } from './aerolinea.entity';
-import { AerolineaDto } from './aerolinea.dto';
 import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
-import { AeropuertoDto } from 'src/aeropuerto/aeropuerto.dto';
 
 @Injectable()
 export class AerolineaService {
@@ -25,7 +23,6 @@ export class AerolineaService {
   }
 
   async findOne(id: string): Promise<AerolineaEntity> {
-    const aerolineaAeropuerto = null;
     const aerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({
       where: { id },
       relations: { aeropuertos: true },
@@ -71,9 +68,7 @@ export class AerolineaService {
     persistAerolinea.aeropuertos.push(persistAeropuerto);
     return await this.aerolineaRepositorio.save(persistAerolinea);
   }
- /*async (params:type) => {
-  
- }*/
+ 
  async removeAeropuerto(idAerolinea: string, idAeropuerto: string): Promise<AerolineaEntity> {
   const persistAerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({ where: { id: idAerolinea } });
   if (!persistAerolinea)
@@ -97,3 +92,4 @@ export class AerolineaService {
   return await this.aerolineaRepositorio.save(persistAerolinea);
  }
 }
+
