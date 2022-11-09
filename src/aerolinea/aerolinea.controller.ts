@@ -27,7 +27,6 @@ export class AerolineaController {
         const aeroPuerto = new AeropuertoEntity();
         console.log(aeroPuerto.nombre)
         if(aeroPuerto.nombre === 'Aeropuerto Internacional de El Dorado'){
-            //throw new BusinessLogicException(BusinessErrors.AIRPORT_NOT_FOUND, HttpStatus.NOT_FOUND)
             throw new HttpException("lo encontro", HttpStatus.NOT_FOUND);
         }
         aerolineaDto.fechaFundacion = new Date(aerolineaDto.fechaFundacion)
@@ -47,10 +46,4 @@ export class AerolineaController {
     async delete(@Param('regionId') regionId: string){
         return await this.aerolineaService.delete(regionId);
     }
-
-    /*@Get(':airlineId/airports')
-    async findAirports(@Param('airlineId') airlineId: string){
-        return await this.aerolineaService.findAirports(airlineId);
-    }*/
-
 }
