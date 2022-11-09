@@ -6,7 +6,7 @@ import {
   BusinessLogicException,
 } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
-import { AerolineaEntity } from './aerolinea.entity';
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 
 @Injectable()
