@@ -25,10 +25,7 @@ export class AerolineaController {
     @Post()
     async create(@Body() aerolineaDto: AerolineaDto){
         const aeroPuerto = new AeropuertoEntity();
-        console.log(aeroPuerto.nombre)
-        if(aeroPuerto.nombre === 'Aeropuerto Internacional de El Dorado'){
-            throw new HttpException("lo encontro", HttpStatus.NOT_FOUND);
-        }
+        if(aeroPuerto.nombre === 'Aeropuerto Internacional de El Dorado'){ throw new HttpException("lo encontro", HttpStatus.NOT_FOUND); }
         aerolineaDto.fechaFundacion = new Date(aerolineaDto.fechaFundacion)
         const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto)
         return this.aerolineaService.create(aerolinea);

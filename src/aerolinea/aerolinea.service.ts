@@ -1,10 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  BusinessErrors,
-  BusinessLogicException,
-} from '../shared/errors/business-errors';
+import { BusinessErrors, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
@@ -17,8 +14,7 @@ export class AerolineaService {
   ) {}
 
   async findAll(): Promise<AerolineaEntity[]> {
-    return this.aerolineaRepositorio.find({relations: { aeropuertos: true },
-    });
+    return this.aerolineaRepositorio.find({relations: { aeropuertos: true },});
   }
 
   async findOne(id: string): Promise<AerolineaEntity> {
@@ -91,4 +87,3 @@ export class AerolineaService {
   return this.aerolineaRepositorio.save(persistAerolinea);
  }
 }
-
