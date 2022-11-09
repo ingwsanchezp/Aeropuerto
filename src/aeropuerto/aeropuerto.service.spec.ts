@@ -70,15 +70,13 @@ describe('aeropuerto', () =>{
         const aerolineaList = [];
         const yearOld = new Date();
         yearOld.setFullYear(yearOld.getFullYear() - 1);
-        const aerolinea: AerolineaEntity = {
-            nombre: faker.company.name(),
-            descripcion: faker.commerce.productDescription(),
-            fechaFundacion: yearOld,
-            paginaWeb: faker.internet.url(),
-            aeropuertos: [],
-            id: ""
-        }
+        const aerolinea = new AerolineaEntity();
+        aerolinea.nombre = faker.company.name();
+        aerolinea.descripcion = faker.commerce.productDescription();
+        aerolinea.fechaFundacion = yearOld;
+        aerolinea.paginaWeb = faker.internet.url();
         aerolineaList.push(aerolinea);
+
         const aerpuerto: AeropuertoEntity = {
             id: "",
             nombre: faker.commerce.productName(),
