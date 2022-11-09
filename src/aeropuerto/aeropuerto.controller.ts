@@ -44,7 +44,7 @@ export class AeropuertoController {
 
     @Get(':airportId/airlines')
     async findAirlines(){
-        return await this.aeroPuertoService.findAll;
+        return this.aeroPuertoService.findAll;
     }
 
     @Get(':airportId/airlines/:airlineId')
