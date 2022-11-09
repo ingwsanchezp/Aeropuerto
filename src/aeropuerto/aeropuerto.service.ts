@@ -14,7 +14,7 @@ export class AeropuertoService {
   ) {}
 
   async findAll(): Promise<AeropuertoEntity[]>{
-    return await this.aeropuertoRepositorio.find({relations: {aerolineas: true,},});
+    return this.aeropuertoRepositorio.find({relations: {aerolineas: true,},});
   }
 
   async findOne(id: string): Promise<AeropuertoEntity>{
@@ -28,7 +28,7 @@ export class AeropuertoService {
     if (aeropuerto.codigo.length > 3){
         throw new BusinessLogicException('El codigo del aeropuerto es mayor a 3 digitos',BusinessErrors.PRECONDITION_FAILED);
     }
-    return await this.aeropuertoRepositorio.save(aeropuerto);
+    return this.aeropuertoRepositorio.save(aeropuerto);
   }
 
   async update(id: string, aeropuerto: AeropuertoEntity){
@@ -38,7 +38,7 @@ export class AeropuertoService {
     if (aeropuerto.codigo.length > 3){
         throw new BusinessLogicException('El codigo del aeropuerto es mayor a 3 digitos',BusinessErrors.PRECONDITION_FAILED);
     }
-    return await this.aeropuertoRepositorio.save({...persistAeroPuerto, ...aeropuerto});
+    return this.aeropuertoRepositorio.save({...persistAeroPuerto, ...aeropuerto});
   }
 
   async delete(id:string){

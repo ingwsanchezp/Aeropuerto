@@ -17,8 +17,7 @@ export class AerolineaService {
   ) {}
 
   async findAll(): Promise<AerolineaEntity[]> {
-    return await this.aerolineaRepositorio.find({
-      relations: { aeropuertos: true },
+    return this.aerolineaRepositorio.find({relations: { aeropuertos: true },
     });
   }
 
@@ -37,7 +36,7 @@ export class AerolineaService {
     if (aerolinea.fechaFundacion.getFullYear() > fechaActual.getFullYear() || aerolinea.fechaFundacion.getFullYear() === fechaActual.getFullYear()){
       throw new BusinessLogicException('La fecha de fundacion debe ser menor a la fecha actual', BusinessErrors.PRECONDITION_FAILED);    
     }
-    return await this.aerolineaRepositorio.save(aerolinea);
+    return this.aerolineaRepositorio.save(aerolinea);
   }
 
   async update(id: string, aerolinea: AerolineaEntity): Promise<AerolineaEntity> {
@@ -48,7 +47,7 @@ export class AerolineaService {
     if (aerolinea.fechaFundacion.getFullYear() > fechaActual.getFullYear() || aerolinea.fechaFundacion.getFullYear() === fechaActual.getFullYear()){
       throw new BusinessLogicException('La fecha de fundacion debe ser menor a la fecha actual', BusinessErrors.PRECONDITION_FAILED);
     }
-    return await this.aerolineaRepositorio.save({...persistAerolinea, ...aerolinea});
+    return this.aerolineaRepositorio.save({...persistAerolinea, ...aerolinea});
   }
 
   async delete(id: string){
@@ -66,7 +65,7 @@ export class AerolineaService {
     if (!persistAeropuerto)
       throw new BusinessLogicException('El aeropuerto con el id no ha sido encontrado', BusinessErrors.NOT_FOUND);
     persistAerolinea.aeropuertos.push(persistAeropuerto);
-    return await this.aerolineaRepositorio.save(persistAerolinea);
+    return this.aerolineaRepositorio.save(persistAerolinea);
   }
  
  async removeAeropuerto(idAerolinea: string, idAeropuerto: string): Promise<AerolineaEntity> {
@@ -77,7 +76,7 @@ export class AerolineaService {
   if (!persistAeropuerto)
     throw new BusinessLogicException('El aeropuerto con el id no ha sido encontrado', BusinessErrors.NOT_FOUND);
   persistAerolinea.aeropuertos = persistAerolinea.aeropuertos.filter(aeropuerto => aeropuerto.id !== idAeropuerto);
-  return await this.aerolineaRepositorio.save(persistAerolinea);
+  return this.aerolineaRepositorio.save(persistAerolinea);
  }
 
  async updateAeropuerto(idAerolinea: string, idAeropuerto: string, aeropuerto: AeropuertoEntity): Promise<AerolineaEntity> {
@@ -89,7 +88,7 @@ export class AerolineaService {
     throw new BusinessLogicException('El aeropuerto con el id no ha sido encontrado', BusinessErrors.NOT_FOUND);
   persistAerolinea.aeropuertos = persistAerolinea.aeropuertos.filter(aeropuerto => aeropuerto.id !== idAeropuerto);
   persistAerolinea.aeropuertos.push(aeropuerto);
-  return await this.aerolineaRepositorio.save(persistAerolinea);
+  return this.aerolineaRepositorio.save(persistAerolinea);
  }
 }
 

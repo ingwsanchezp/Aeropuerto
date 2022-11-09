@@ -13,12 +13,12 @@ export class AeropuertoController {
 
     @Get()
     async findAll(){
-        return await this.aeroPuertoService.findAll();
+        return this.aeroPuertoService.findAll();
     }
 
     @Get(':airportId')
     async findOne(@Param('airportId') aeropuertoId: string){
-        return await this.aeroPuertoService.findOne(aeropuertoId);
+        return this.aeroPuertoService.findOne(aeropuertoId);
     }
 
     @Post()
@@ -33,13 +33,13 @@ export class AeropuertoController {
     @Put(':airportId')
     async update(@Param('airportId') aeropuertoId: string, @Body() aeropuertoDto: AeropuertoDto){
         const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto);
-        return await this.aeroPuertoService.update(aeropuertoId, aeropuerto);
+        return this.aeroPuertoService.update(aeropuertoId, aeropuerto);
     }
 
     @Delete(':airportId')
     @HttpCode(204)
     async delete(@Param('airportId') aeropuertoId: string){
-        return await this.aeroPuertoService.delete(aeropuertoId);
+        return this.aeroPuertoService.delete(aeropuertoId);
     }
 
     @Get(':airportId/airlines')
@@ -49,6 +49,6 @@ export class AeropuertoController {
 
     @Get(':airportId/airlines/:airlineId')
     async findAirline(@Param('airportId') airportId: string){
-        return await this.aeroPuertoService.findOne(airportId);
+        return this.aeroPuertoService.findOne(airportId);
     }
 }

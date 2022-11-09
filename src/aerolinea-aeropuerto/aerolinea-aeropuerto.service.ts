@@ -62,7 +62,7 @@ export class AerolineaAeropuertoService {
         if (!persistAeroPuerto)
             throw new BusinessLogicException('No se encontraron aeropuerto para esta aerolinea id', BusinessErrors.NOT_FOUND);
         persistAerolinea.aeropuertos.push(persistAeroPuerto);
-        return await this.aerolineaRepositorio.save(persistAerolinea);
+        return this.aerolineaRepositorio.save(persistAerolinea);
     }
 
     async deleteAeropuertoDesdeAerolinea(aerolineaId: string, aeropuertoId: string) {
@@ -70,7 +70,7 @@ export class AerolineaAeropuertoService {
         persistAerolinea.aeropuertos = persistAerolinea.aeropuertos.filter((aeropuerto) =>{
             return aeropuerto.id !== aeropuertoId
         })
-        return await this.aerolineaRepositorio.save(persistAerolinea);
+        return this.aerolineaRepositorio.save(persistAerolinea);
     }
 
     async sincronize(aerolineaId: string, aeropuertoId: string){
@@ -83,6 +83,6 @@ export class AerolineaAeropuertoService {
         if (!persistAeroPuerto)
             throw new BusinessLogicException('No se encontraron aeropuerto para esta aerolinea id', BusinessErrors.NOT_FOUND);
         persistAerolinea.aeropuertos.push(persistAeroPuerto);
-        return await this.aerolineaRepositorio.save(persistAerolinea);
+        return this.aerolineaRepositorio.save(persistAerolinea);
     }
 }

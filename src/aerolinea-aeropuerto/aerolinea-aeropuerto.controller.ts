@@ -34,7 +34,7 @@ export class AerolineaAeropuertoController {
     }
 
     @Post(':airlineId/airports')
-    async addAeropuertoParaAerolinea(@Param('airlineId') aerolineaId: string, @Body() aeropuertoDto: AeropuertoDto){
+    async addAeropuertoParaAerolinea(@Param('airlineId') aerolineaId: string, @Body() aeropuertoDto: AeropuertoDto): Promise<AerolineaEntity>{
         const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto)
         try {
             const aerolinea: AerolineaEntity = await this.aerolineaAeropuerto.addAeropuertoParaAerolinea(aerolineaId, aeropuerto); 

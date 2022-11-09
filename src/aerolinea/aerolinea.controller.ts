@@ -14,12 +14,12 @@ export class AerolineaController {
 
     @Get()
     async findAll(){
-        return await this.aerolineaService.findAll();
+        return this.aerolineaService.findAll();
     }
 
     @Get(':airlineId')
     async findOne(@Param('airlineId') aerolineaId: string){
-        return await this.aerolineaService.findOne(aerolineaId);
+        return this.aerolineaService.findOne(aerolineaId);
     }
 
     @Post()
@@ -31,19 +31,19 @@ export class AerolineaController {
         }
         aerolineaDto.fechaFundacion = new Date(aerolineaDto.fechaFundacion)
         const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto)
-        return await this.aerolineaService.create(aerolinea);
+        return this.aerolineaService.create(aerolinea);
     }
 
     @Put(':airlineId')
     async update(@Param('airlineId') aerolieaId: string, @Body() aerolineaDto: AerolineaDto){
         aerolineaDto.fechaFundacion = new Date(aerolineaDto.fechaFundacion)
         const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto)
-        return await this.aerolineaService.update(aerolieaId, aerolinea);
+        return this.aerolineaService.update(aerolieaId, aerolinea);
     }
 
     @Delete(':airlineId')
     @HttpCode(204)
     async delete(@Param('regionId') regionId: string){
-        return await this.aerolineaService.delete(regionId);
+        return this.aerolineaService.delete(regionId);
     }
 }
