@@ -71,6 +71,10 @@ describe('aerolinea-aeropuerto', () => {
         await expect(() => service.findAeropuertosDesdeAerolinea("0")).rejects.toHaveProperty("message", "La Aerolinea con id no ha sido encontrada")
     });
 
+    it('findAeropuertosDesdeAerolinea aerolinea no encontrada', async () =>{
+        await expect(() => service.findAeropuertosDesdeAerolinea("0")).rejects.toHaveProperty("message", "La Aerolinea con id no ha sido encontrada")
+    });
+
     it('findAeropuertoDesdeAerolinea debe retornar un aeropuerto que cubre una aerolinea', async () =>{
         const aerolinea: AerolineaEntity = await service.findAeropuertoDesdeAerolinea(aerolineaList[0].aeropuertos[0].id, aerolineaList[0].id);
         expect(aerolinea).not.toBeNull();
@@ -96,6 +100,14 @@ describe('aerolinea-aeropuerto', () => {
     });
 
     it('updateAeropuertoDesdeAerolinea actualiza el aeropuerto entre id viejo id nuevo',async () => {
+        const updateAerolinea: AerolineaEntity = await service.updateAeropuertoDesdeAerolinea(aerolineaList[0].id, aerolineaList[0].aeropuertos[0].id, aerolineaList[0].aeropuertos[1].id);
+        expect(updateAerolinea).not.toBeNull();
+        expect(updateAerolinea.aeropuertos.filter((aeropuerto) =>{ return aeropuerto.id == aerolineaList[0].aeropuertos[0].id})).toHaveLength(0);
+        expect(updateAerolinea.aeropuertos.filter((aeropuerto) =>{ return aeropuerto.id == aerolineaList[0].aeropuertos[1].id})).not.toBeNull();
+        
+    });
+
+    it('sincronize actualiza el aeropuerto entre id viejo id nuevo',async () => {
         const updateAerolinea: AerolineaEntity = await service.updateAeropuertoDesdeAerolinea(aerolineaList[0].id, aerolineaList[0].aeropuertos[0].id, aerolineaList[0].aeropuertos[1].id);
         expect(updateAerolinea).not.toBeNull();
         expect(updateAerolinea.aeropuertos.filter((aeropuerto) =>{ return aeropuerto.id == aerolineaList[0].aeropuertos[0].id})).toHaveLength(0);
