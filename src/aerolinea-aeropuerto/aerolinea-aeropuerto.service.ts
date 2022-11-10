@@ -5,7 +5,6 @@ import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 import { BusinessErrors, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
-
 @Injectable()
 export class AerolineaAeropuertoService {
     constructor(
@@ -15,7 +14,7 @@ export class AerolineaAeropuertoService {
         private readonly aeropuertoRepositorio: Repository<AeropuertoEntity>
     ){}
 
-    async findAeropuertosDesdeAerolinea(aerolineaId: string): Promise<AerolineaEntity>{
+    async findAeropuertosDesdeAerolinea({ aerolineaId }: { aerolineaId: string; }): Promise<AerolineaEntity>{
         const aerolinea: AerolineaEntity = await this.aerolineaRepositorio.findOne({where: {id: aerolineaId}, relations: { aeropuertos: true },})
         if (!aerolinea)
             throw new BusinessLogicException('La Aerolinea con id no ha sido encontrada', BusinessErrors.NOT_FOUND)

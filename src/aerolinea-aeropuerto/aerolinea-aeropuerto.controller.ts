@@ -11,8 +11,8 @@ export class AerolineaAeropuertoController {
     constructor(private readonly aerolineaAeropuerto: AerolineaAeropuertoService){}
 
     @Get(':airlineId/airports')
-    async findAeropuertosDesdeAerolinea(@Param('airlineId') aerolineaId: string){
-        return this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId);
+    async findAeropuertosDesdeAerolinea(@Param('airlineId') aerolineaId: string): Promise<AerolineaEntity>{
+        return this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea({ aerolineaId });
     }
 
     @Get(':airlineId/airports/:airportId')
@@ -33,7 +33,7 @@ export class AerolineaAeropuertoController {
         const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto)
         try {
             const aerolinea: AerolineaEntity = await this.aerolineaAeropuerto.addAeropuertoParaAerolinea(aerolineaId, aeropuerto); 
-            return await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolinea.id);
+            return await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea({ aerolineaId: aerolinea.id });
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.NOT_FOUND);
         }
@@ -45,8 +45,7 @@ export class AerolineaAeropuertoController {
             return await this.aerolineaAeropuerto.updateAeropuertoDesdeAerolinea(aerolineaId, aeropuertosAntiguoId, aerpuertoNuevoId);    
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.NOT_FOUND);
-        }
-        
+        }  
     }
 
     @Delete(':airlineId/airports/:airportId')

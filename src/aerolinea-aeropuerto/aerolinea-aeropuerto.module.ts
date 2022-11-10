@@ -3,8 +3,8 @@ import { AerolineaAeropuertoController } from './aerolinea-aeropuerto.controller
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AerolineaEntity } from 'src/aerolinea/aerolinea.entity';
-import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
+import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([AerolineaEntity, AeropuertoEntity])],
