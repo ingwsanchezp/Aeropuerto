@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
@@ -6,13 +7,15 @@ import { AeropuertoDto } from '../aeropuerto/aeropuerto.dto';
 import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 import { BusinessLogicException, BusinessErrors } from '../shared/errors/business-errors';
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
+
 @Controller('airlines')
 export class AerolineaAeropuertoController { 
     constructor(private readonly aerolineaAeropuerto: AerolineaAeropuertoService){}
 
     @Get(':airlineId/airports')
     async findAeropuertosDesdeAerolinea(@Param('airlineId') aerolineaId: string){
-        let count = (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
+        let count = null;
+        count = (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
         console.log(count.toString());
         return this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId);
     }
@@ -31,7 +34,7 @@ export class AerolineaAeropuertoController {
     }
 
     @Post(':airlineId/airports')
-    async addAeropuertoParaAerolinea(@Param('airlineId') aerolineaId: string, @Body() aeropuertoDto: AeropuertoDto): Promise<AerolineaEntity>{
+    async addAeropuertoParaAerolinea(@Param('airlineId') aerolineaId: string, @Body() aeropuertoDto: AeropuertoDto){
         const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto)
         try {
             const aerolinea: AerolineaEntity = await this.aerolineaAeropuerto.addAeropuertoParaAerolinea(aerolineaId, aeropuerto); 
