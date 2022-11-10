@@ -13,17 +13,17 @@ export class AerolineaController {
     constructor(private readonly aerolineaService: AerolineaService){}
 
     @Get()
-    async findAll(){
+    async findAll(): Promise<AerolineaEntity[]>{
         return this.aerolineaService.findAll();
     }
 
     @Get(':airlineId')
-    async findOne(@Param('airlineId') aerolineaId: string){
+    async findOne(@Param('airlineId') aerolineaId: string): Promise<AerolineaEntity>{
         return this.aerolineaService.findOne(aerolineaId);
     }
 
     @Post()
-    async create(@Body() aerolineaDto: AerolineaDto){
+    async create(@Body() aerolineaDto: AerolineaDto): Promise<AerolineaEntity>{
         const aeroPuerto = new AeropuertoEntity();
         if(aeroPuerto.nombre === 'Aeropuerto Internacional de El Dorado'){ throw new HttpException("lo encontro", HttpStatus.NOT_FOUND); }
         aerolineaDto.fechaFundacion = new Date(aerolineaDto.fechaFundacion)
@@ -32,7 +32,7 @@ export class AerolineaController {
     }
 
     @Put(':airlineId')
-    async update(@Param('airlineId') aerolieaId: string, @Body() aerolineaDto: AerolineaDto){
+    async update(@Param('airlineId') aerolieaId: string, @Body() aerolineaDto: AerolineaDto): Promise<AerolineaEntity>{
         aerolineaDto.fechaFundacion = new Date(aerolineaDto.fechaFundacion)
         const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto)
         return this.aerolineaService.update(aerolieaId, aerolinea);
@@ -40,7 +40,7 @@ export class AerolineaController {
 
     @Delete(':airlineId')
     @HttpCode(204)
-    async delete(@Param('regionId') regionId: string){
+    async delete(@Param('regionId') regionId: string): Promise<void>{
         return this.aerolineaService.delete(regionId);
     }
 }

@@ -56,15 +56,16 @@ describe('aerolinea-aeropuerto', () => {
         expect(service).toBeDefined();
     });
 
-    it('findAeropuertosDesdeAerolinea debe retornar listados de aeropuertos para una aerolinea dada', async () =>{
-        const persistAerolinea: AerolineaEntity = aerolineaList[0];
-        const aerolinea: AerolineaEntity = await service.findAeropuertosDesdeAerolinea(persistAerolinea.id);
-        expect(aerolinea).not.toBeNull();
-        expect(aerolinea.nombre).toEqual(persistAerolinea.nombre)
-        expect(aerolinea.aeropuertos.find((aeropuerto) =>{
-            return aeropuerto.id == persistAerolinea.aeropuertos[0].id
-        }))
-    });
+    const newLocal = 'findAeropuertosDesdeAerolinea debe retornar listados de aeropuertos para una aerolinea dada';
+    it(newLocal, async function () {
+            const persistAerolinea: AerolineaEntity = aerolineaList[0];
+            const aerolinea: AerolineaEntity = await service.findAeropuertosDesdeAerolinea(persistAerolinea.id);
+            expect(aerolinea).not.toBeNull();
+            expect(aerolinea.nombre).toEqual(persistAerolinea.nombre);
+            expect(aerolinea.aeropuertos.find((aeropuerto) => {
+                return aeropuerto.id == persistAerolinea.aeropuertos[0].id;
+            }));
+        });
 
     it('findAeropuertosDesdeAerolinea aerolinea no encontrada', async () =>{
         await expect(() => service.findAeropuertosDesdeAerolinea("0")).rejects.toHaveProperty("message", "La Aerolinea con id no ha sido encontrada")

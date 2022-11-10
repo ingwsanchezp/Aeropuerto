@@ -7,7 +7,6 @@ import { TypeOrmTestingConfig } from "../shared/testing-utils/typeorm-testing-co
 import { Repository } from "typeorm";
 import { AeropuertoEntity } from "./aeropuerto.entity";
 import { AeropuertoService } from "./aeropuerto.service";
-
 describe('aeropuerto', () =>{
     let service: AeropuertoService;
     let repository: Repository<AeropuertoEntity>;
@@ -108,7 +107,7 @@ describe('aeropuerto', () =>{
         aeropuerto = {
             ... aeropuerto, nombre: "New nombre", pais:"New Pais"
         }
-        await expect(() => service.update("0", aeropuerto)).rejects.toHaveProperty("message", "El aeropuerto con id no ha sido encontrado");
+        await expect((): Promise<{ id: string; nombre: string; codigo: string; pais: string; ciudad: string; aerolineas: AerolineaEntity[]; } & AeropuertoEntity> => service.update("0", aeropuerto)).rejects.toHaveProperty("message", "El aeropuerto con id no ha sido encontrado");
     });
 
     it('delete Eliminar aeropuerto', async () => {

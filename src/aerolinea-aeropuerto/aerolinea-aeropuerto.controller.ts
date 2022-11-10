@@ -12,13 +12,11 @@ export class AerolineaAeropuertoController {
 
     @Get(':airlineId/airports')
     async findAeropuertosDesdeAerolinea(@Param('airlineId') aerolineaId: string){
-        let count = (await this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId)).aeropuertos.length;
-        console.log(count.toString());
         return this.aerolineaAeropuerto.findAeropuertosDesdeAerolinea(aerolineaId);
     }
 
     @Get(':airlineId/airports/:airportId')
-    async findAeropuertoDesdeAerolinea(@Param('airportId') aeropuertoId: string, @Param('airlineId') aerolineaId: string){
+    async findAeropuertoDesdeAerolinea(@Param('airportId') aeropuertoId: string, @Param('airlineId') aerolineaId: string): Promise<AerolineaEntity>{
         try {
             const aerolinea: AerolineaEntity = await this.aerolineaAeropuerto.findAeropuertoDesdeAerolinea(aeropuertoId, aerolineaId);
             if(aerolinea.aeropuertos.length == 0){
@@ -42,7 +40,7 @@ export class AerolineaAeropuertoController {
     }
 
     @Put(':airlineId/airport/old/:airportOldId/new/:airportNewId')
-    async updateAeropuertoDesdeAerolinea(@Param('airlineId') aerolineaId: string, @Param('airportOldId') aeropuertosAntiguoId: string, @Param('airportNewId') aerpuertoNuevoId: string){
+    async updateAeropuertoDesdeAerolinea(@Param('airlineId') aerolineaId: string, @Param('airportOldId') aeropuertosAntiguoId: string, @Param('airportNewId') aerpuertoNuevoId: string): Promise<AerolineaEntity>{
         try {
             return await this.aerolineaAeropuerto.updateAeropuertoDesdeAerolinea(aerolineaId, aeropuertosAntiguoId, aerpuertoNuevoId);    
         } catch (error) {
@@ -53,12 +51,11 @@ export class AerolineaAeropuertoController {
 
     @Delete(':airlineId/airports/:airportId')
     @HttpCode(204)
-    async deleteAeropuertoDesdeAerolinea(@Param('airlineId') aerolineaId: string, @Param('airportId') aeropuertoId: string){
+    async deleteAeropuertoDesdeAerolinea(@Param('airlineId') aerolineaId: string, @Param('airportId') aeropuertoId: string): Promise<AerolineaEntity>{
         try {
             return await this.aerolineaAeropuerto.deleteAeropuertoDesdeAerolinea(aerolineaId, aeropuertoId);    
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.NOT_FOUND);
-        }
-        
+        } 
     }
 }

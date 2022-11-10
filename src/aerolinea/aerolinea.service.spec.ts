@@ -127,6 +127,5 @@ describe('aerolinea', () => {
         const aerolinea: AerolineaEntity = aerolineaList[0];
         await service.delete(aerolinea.id);
         await expect(() => service.delete("0")).rejects.toHaveProperty("message", "La aerolinea con el id no ha sido encontrada");
-    });
-    
+    }); 
 });
