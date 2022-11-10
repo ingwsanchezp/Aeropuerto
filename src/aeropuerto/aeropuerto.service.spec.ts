@@ -10,7 +10,9 @@ import { AeropuertoService } from "./aeropuerto.service";
 describe('aeropuerto', () =>{
     let service: AeropuertoService;
     let repository: Repository<AeropuertoEntity>;
+    let repositoryAerolinea: Repository<AerolineaEntity>;
     let aeropuertoList: AeropuertoEntity[];
+    let aerolineaList: AerolineaEntity[];
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -19,7 +21,10 @@ describe('aeropuerto', () =>{
         }).compile();
         service = module.get<AeropuertoService>(AeropuertoService);
         repository = module.get<Repository<AeropuertoEntity>>(getRepositoryToken(AeropuertoEntity));
+        repositoryAerolinea = module.get<Repository<AerolineaEntity>>(getRepositoryToken(AerolineaEntity));
+        await seeDatabaseAero();
         await seeDatabase();
+        
     });
 
     const seeDatabase = async () =>{
@@ -31,9 +36,25 @@ describe('aeropuerto', () =>{
                 ciudad: faker.address.cityName(),
                 codigo: "A0"+ i,
                 pais: faker.address.country(),
-                aerolineas: [],
+                aerolineas: aerolineaList,
             })
             aeropuertoList.push(aeropuerto);
+        }
+    }
+
+    const seeDatabaseAero = async () =>{
+        repository.clear();
+        aerolineaList = [];
+        const yearOld = new Date();
+        yearOld.setFullYear(yearOld.getFullYear() - 1);
+        for(let i=0; i < 5; i++){
+            const aerolinea: AerolineaEntity = await repositoryAerolinea.save({
+                nombre: faker.company.name(),
+                descripcion: faker.commerce.productDescription(),
+                fechaFundacion: yearOld,
+                paginaWeb: faker.internet.url(),
+            })
+            aerolineaList.push(aerolinea);
         }
     }
 
@@ -122,4 +143,25 @@ describe('aeropuerto', () =>{
         await service.delete(aeropuerto.id);
         await expect(() => service.delete("0")).rejects.toHaveProperty("message", "El aeropuerto con id no ha sido encontrado");
     });
+
+    it('addAerolinea Agregar una aerolinea a un aeropuerto', async () => {
+        const aeropuerto: AeropuertoEntity = aeropuertoList[0];
+        const aerolinea: AerolineaEntity = aerolineaList[0];
+        await service.addAerolinea(aeropuerto.id, aerolinea.id);
+        const persistAeropuerto: AeropuertoEntity = await repository.findOne({where: {id: aeropuerto.id}, relations: {aerolineas: true,},});
+        expect(persistAeropuerto.aerolineas).not.toBeNull();
+        expect(persistAeropuerto.aerolineas.length).toEqual(5);
+        expect(persistAeropuerto.aerolineas[0].id).toEqual(aerolinea.id);
+    });
+
+    it('addAerolinea Agregar una aerolinea a un aeropuerto no existente', async () => {
+        const aerolinea: AerolineaEntity = aerolineaList[0];
+        await expect(() => service.addAerolinea("0", aerolinea.id)).rejects.toHaveProperty("message", "El aeropuerto con id no ha sido encontrado");
+    });
+
+    it('addAerolinea Agregar una aerolinea no existente a un aeropuerto', async () => {
+        const aeropuerto: AeropuertoEntity = aeropuertoList[0];
+        await expect(() => service.addAerolinea(aeropuerto.id, "0")).rejects.toHaveProperty("message", "La aerolinea con id no ha sido encontrada");
+    });
+
 });

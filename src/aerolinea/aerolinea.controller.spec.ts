@@ -24,4 +24,8 @@ describe('AerolineaController', () =>{
     it('/ (GET)', () => { 
         return request(app.getHttpServer()).get('/4').expect(404); 
     });
+
+    it('/ (DELETE)', () => { 
+        return request(app.getHttpServer()).delete('/A203').expect(404); 
+    });
 });
