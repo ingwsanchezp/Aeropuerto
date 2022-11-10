@@ -22,5 +22,9 @@ describe('AeropuertoController', () =>{
     it('/ (GET)', () => { 
         return request(app.getHttpServer()).get('/').expect(200); 
     });
+
+    it('/ (GET)', () => { 
+        return request(app.getHttpServer()).get('/A203').expect(404); 
+    });
 });
 

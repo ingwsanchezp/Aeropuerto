@@ -20,4 +20,8 @@ describe('AerolineaController', () =>{
     it('/ (GET)', () => { 
         return request(app.getHttpServer()).get('/').expect(200); 
     });
+
+    it('/ (GET)', () => { 
+        return request(app.getHttpServer()).get('/4').expect(404); 
+    });
 });
