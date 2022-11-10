@@ -128,4 +128,17 @@ describe('aerolinea', () => {
         await service.delete(aerolinea.id);
         await expect(() => service.delete("0")).rejects.toHaveProperty("message", "La aerolinea con el id no ha sido encontrada");
     }); 
+
+
+    it('addAeropuerto Agregar un aeropuerto a una aerolinea no existente', async () => {
+        const persistAeropuerto: AeropuertoEntity = aeropuertosList[0];
+        await expect(() => service.addAeropuerto("0", persistAeropuerto.id)).rejects.toHaveProperty("message", "La aerolinea con el id no ha sido encontrada");
+    });
+
+    it('addAeropuerto Agregar un aeropuerto a una aerolinea que ya tiene ese aeropuerto', async () => {
+        const persistAerolinea: AerolineaEntity = aerolineaList[0];
+        const persistAeropuerto: AeropuertoEntity = aeropuertosList[0];
+        await expect(() => service.addAeropuerto(persistAerolinea.id, persistAeropuerto.id)).rejects.toHaveProperty("message", "El aeropuerto con el id no ha sido encontrado");
+    });
+
 });
